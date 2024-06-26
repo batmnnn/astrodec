@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astrological Decision Maker</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: url('https://img.freepik.com/free-vector/gradient-numerology-background_23-2150001894.jpg?w=826&t=st=1719304268~exp=1719304868~hmac=cfe7e39924af37291632f6de6f1c60154b71050b0fd2ce97d45ab325dfca56a7') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100vh;
+        }
+        h1 {
+            margin-top: 20px;
+            font-size: 3em;
+            text-shadow: 2px 2px 8px #000;
+        }
+        form {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            display: inline-block;
+            padding: 30px;
+            margin-top: 30px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+        label {
+            display: block;
+            margin: 15px 0 5px;
+            font-size: 1.2em;
+            text-align: left;
+        }
+        input[type="text"], input[type="date"] {
+            padding: 10px;
+            width: calc(100% - 22px);
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 15px;
+            display: inline-block;
+            padding: 30px;
+            margin-top: 20px;
+            font-size: 1.2em;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            transition: opacity 0.5s;
+        }
+        .zodiac {
+            width: 50px;
+            height: 50px;
+            margin: 10px auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Astrological Decision Maker</h1>
+    <form id="decision-form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br>
+        <label for="birthdate">Date of Birth:</label>
+        <input type="date" id="birthdate" name="birthdate" required><br>
+        <label for="decision">Decision to be made:</label>
+        <input type="text" id="decision" name="decision" required><br>
+        <button type="submit">Submit</button>
+    </form>
+    <div id="result" style="display: none;">
+        <img src="" alt="Zodiac Sign" class="zodiac" id="zodiac-img">
+        <h2>Decision Result</h2>
+        <p id="result-text"></p>
+    </div>
+
+    <script>
+        document.getElementById('decision-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+            fetch('/get_decision', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const zodiacImages = {
+                    "Aries": "♈",
+                    "Taurus": "♉",
+                    "Gemini": "♊",
+                    "Cancer": "♋",
+                    "Leo": "♌",
+                    "Virgo": "♍",
+                    "Libra": "♎",
+                    "Scorpio": "♏",
+                    "Sagittarius": "♐",
+                    "Capricorn": "♑",
+                    "Aquarius": "♒",
+                    "Pisces": "♓"
+                };
+
+                const resultDiv = document.getElementById('result');
+                const zodiacImg = document.getElementById('zodiac-img');
+                const resultText = document.getElementById('result-text');
+                
+                const resultTextContent = data.decision;
+                const sign = resultTextContent.match(/Astrological Sign: (\w+)/)[1];
+
+                zodiacImg.src = zodiacImages[sign];
+                resultText.innerText = resultTextContent;
+
+                resultDiv.style.display = 'block';
+                resultDiv.style.opacity = 1;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
+</html>
