@@ -79,7 +79,7 @@
 </head>
 <body>
     <h1>Astrological Decision Maker</h1>
-    <form id="decision-form" action="https://astrodec-5.onrender.com/get_decision" method="POST">
+    <form id="decision-form">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required><br>
         <label for="birthdate">Date of Birth:</label>
@@ -99,7 +99,7 @@
             event.preventDefault();
 
             const formData = new FormData(event.target);
-            fetch('https://astrodec-5.onrender.com/get_decision', {
+            fetch('/get_decision', {
                 method: 'POST',
                 body: formData
             })
