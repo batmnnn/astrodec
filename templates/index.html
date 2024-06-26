@@ -79,7 +79,7 @@
 </head>
 <body>
     <h1>Astrological Decision Maker</h1>
-    <form id="decision-form">
+    <form id="decision-form" action="/get_decision" method="post">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required><br>
         <label for="birthdate">Date of Birth:</label>
@@ -127,7 +127,7 @@
                 const resultTextContent = data.decision;
                 const sign = resultTextContent.match(/Astrological Sign: (\w+)/)[1];
 
-                zodiacImg.src = zodiacImages[sign];
+                zodiacImg.src = `https://example.com/zodiac/${sign.toLowerCase()}.png`;  // Replace with actual URL
                 resultText.innerText = resultTextContent;
 
                 resultDiv.style.display = 'block';
