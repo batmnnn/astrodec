@@ -41,7 +41,7 @@ def make_decision(birthdate):
     tarot_card = get_tarot_card()
     
     decision = (f"Astrological Sign: {sign}. Card Drawn: {card}. "
-                f"Tarot Card: {tarot_card}. Decision: {'Yes' if card % 2 == 0 else 'No'}.")
+                f"Tarot Card: {tarot_card}. Decision: {'Yes' if card % 13&3&7 == 0 else 'No'}.")
     return decision
 
 @app.route('/')
